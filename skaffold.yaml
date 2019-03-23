@@ -1,0 +1,13 @@
+apiVersion: skaffold/v1beta5
+kind: Config
+build:
+  artifacts:
+    - image: gcr.io/chingu/gateway
+      docker:
+        dockerfile: DockerfileDev
+      sync:
+        "server/**/*.js": "/app/server"
+deploy:
+  kubectl:
+    manifests:
+      - kubernetes/deployment.yaml

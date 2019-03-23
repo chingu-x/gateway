@@ -1,0 +1,12 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "gcr.io/chingu/gateway:$REVISION_ID", "."]
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/chingu/gateway:$REVISION_ID"]
+  - name: "gcr.io/cloud-builders/kubectl"
+    args: ["set", "image", "deployment/gateway", "app=gcr.io/chingu/gateway:$REVISION_ID"]
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=${_COMPUTE_ZONE}'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=${_CONTAINER_CLUSTER}'
+images:
+  - "gcr.io/chingu/gateway:$REVISION_ID"

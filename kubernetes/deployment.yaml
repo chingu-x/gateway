@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: api-gateway
+  labels:
+    app: api-gateway
+spec:
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - name: app
+          image: gcr.io/tibu-site/api-gateway
+          resources:
+            limits:
+              memory: 300Mi
+              cpu: "0.5"
+            requests:
+              memory: 200Mi
+              cpu: "0.3"
+          ports:
+            - name: http-server
+              containerPort: 3000
+          readinessProbe:
+            httpGet:
+              path: /.well-known/apollo/server-health
+              port: 3000
+          env:
+            - name: NODE_PORT
+              value: "3000"
+            - name: NODE_ENV
+              value: production

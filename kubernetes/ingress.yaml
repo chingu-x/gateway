@@ -1,0 +1,10 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: api-gateway
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: api-gateway
+spec:
+  backend:
+    serviceName: api-gateway
+    servicePort: 80
